@@ -24,6 +24,20 @@ export interface IreactiveProps extends IvalidatorOptions {
     checks: IchecksProp;
 }
 
+export interface IvalidatorPrototypeDefinition {
+    /**
+     * @description Checks if the validation is done or not
+     * @returns {boolean} Boolean true | false
+     */
+    isValid(): boolean;
+
+    /**
+     * @description Changes all validations that have not been validated to red
+     * @returns {void}
+     */
+    showError(): void;
+}
+
 export type DomManipulation = (oldNode: HTMLElement, newNode: HTMLElement) => void;
 export type VueRefs = HTMLElement | HTMLElement[] | Vue | Element | Vue[] | Element[];
 export type checkPropertyItemsType = Array<{ label: string; test: functionOrRegex }>;
