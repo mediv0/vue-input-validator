@@ -1,3 +1,4 @@
+import * as validatorDefinition from "./validatorDefinitions";
 export interface IvalidatorOptions {
     name?: string;
     success?: string;
