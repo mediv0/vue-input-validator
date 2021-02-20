@@ -1,0 +1,48 @@
+.x_input_validator {
+    margin-top: 10px;
+
+    &__bars {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        justify-content: space-between;
+
+        &__bar {
+            height: 5px;
+            border-radius: 5px;
+            flex: 1;
+            margin-right: 3px;
+
+            &:last-child {
+                margin-right: 0;
+            }
+        }
+    }
+
+    &__labels {
+        font-family: inherit !important;
+        font-size: inherit !important;
+        margin-top: 15px;
+
+        &__label {
+            display: flex;
+            align-items: center;
+
+            &:not(:last-child) {
+                margin-bottom: 4px;
+            }
+
+            &__check {
+                width: 8px;
+                height: 8px;
+                border-radius: 100%;
+                margin-right: 7px;
+            }
+
+            & > p {
+                padding: 0;
+                margin: 0;
+            }
+        }
+    }
+}
