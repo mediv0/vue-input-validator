@@ -1,5 +1,6 @@
 import { PluginFunction } from "vue";
-import * as validatorDefinition from "./validatorDefinitions";
+import validatorDefinition from "./validatorDefinitions";
+import validator from "./plugin";
 
 declare global {
     interface Window {
@@ -47,14 +48,14 @@ export interface IvalidatorPrototypeDefinition {
     showError(): void;
 }
 
-declare function install(Vue: VueConstructor<Vue>, options?: IvalidatorOptions): void;
-declare const _default: {
-    install: typeof install;
-};
+import Vue, { PluginFunction, VueConstructor } from "vue";
+
+declare const validator: VueConstructor<vue> & { install: PluginFunction<IvalidatorOptions> };
+export default validator;
 
 export type DomManipulation = (oldNode: HTMLElement, newNode: HTMLElement) => void;
 export type VueRefs = HTMLElement | HTMLElement[] | Vue | Element | Vue[] | Element[];
 export type checkPropertyItemsType = Array<{ label: string; test: functionOrRegex }>;
 export type functionOrRegex = RegExp | Function;
 export default validatorDefinition;
-export default _default;
+export default validator;
