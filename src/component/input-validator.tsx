@@ -1,7 +1,7 @@
 import { checkPropertyItemsType, functionOrRegex, IchecksProp } from "@/types";
+import { CreateElement } from "vue";
 import { Component, Prop, Vue, Watch } from "vue-property-decorator";
 import Bus from "../validatorBus";
-require("./style.scss");
 @Component
 export default class Validator extends Vue {
     // ------------------------------------------------------------------------------
@@ -187,7 +187,7 @@ export default class Validator extends Vue {
     // ------------------------------------------------------------------------------
     // TEMPLATE
     // ------------------------------------------------------------------------------
-    render() {
+    render(h: CreateElement) {
         return (
             <div class="x_input_validator">
                 <div class="x_input_validator__bars">
