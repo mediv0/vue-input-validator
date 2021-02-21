@@ -1,4 +1,4 @@
-import component from "./component/input-validator";
+import component from "./component/index";
 
 import { VueConstructor } from "vue";
 import { createValidatorContainer, injectReactiveProps, setPrototype } from "./helpers";
