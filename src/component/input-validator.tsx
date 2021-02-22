@@ -67,8 +67,8 @@ export default class Validator extends Vue {
         // EVENT LISETNER
         const bus = new Bus();
         // $validator.isValid event
-        bus.sub("validationStatus", () => this.watchBarDiv === this.checks.items.length - 1);
-        bus.sub("setErrors", this.setErrors);
+        bus.sub("validationStatus", () => this.watchBarDiv === this.checks.items.length - 1, this.checks.key);
+        bus.sub("setErrors", this.setErrors, this.checks.key);
     }
 
     // #region  METHODS
@@ -175,6 +175,7 @@ export default class Validator extends Vue {
 
     // convert every gray to failed color
     private setErrors(): void {
+        console.log(this.colorTable);
         Object.values(this.colorTable).forEach((color, i) => {
             if (color === this.unchecked) {
                 this.colorTable[i] = this.failed;

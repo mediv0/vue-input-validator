@@ -38,12 +38,12 @@ export const injectReactiveProps = (component: Function, data: IreactiveProps) =
 export const setPrototype = (Vue: VueConstructor): void => {
     const bus = new Bus();
     Vue.prototype.$validator = {
-        isValid(): boolean {
-            return bus.request("validationStatus");
+        isValid(key: string): boolean {
+            return bus.request("validationStatus", key);
         },
 
-        showError(): void {
-            bus.request("setErrors");
+        showError(key?: string): void {
+            bus.request("setErrors", key);
         }
     };
 };
