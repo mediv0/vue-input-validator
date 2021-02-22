@@ -8,33 +8,64 @@ describe("validator bus", () => {
         expect(b1).toEqual(b2);
     });
 
-    it("should call subscribed function when calling request", () => {
+    it("should return false if event is not defined", () => {
         const b = new Bus();
 
-        expect(b.request("test")).toBe(false);
+        expect(b.request("validationStatus", "random key")).toBe(false);
     });
 
-    it("should register new subscriber when calling sub", () => {
+    it("should subscribe multiple events if their eventName is same", () => {
         const b = new Bus();
-        const fnMock = () => {};
-        b.sub("random", fnMock);
 
-        const r = Reflect.get(b, "subscribers");
+        b.sub("testEvent" as any, () => {});
+        b.sub("testEvent" as any, () => {});
+        b.sub("testEvent" as any, () => {});
+        b.sub("testEvent" as any, () => {});
 
-        expect(r["random"]).toBeTruthy();
-        expect(r["random"]).toEqual(fnMock);
+        expect(Reflect.get(b, "subscribers").testEvent.length === 4);
+    })
+
+    it("should call every callback that registerd in setErrors event if key is not provided", () => {
+        const b = new Bus();
+        const cbMock = jest.fn();
+
+        b.sub("setErrors", cbMock);
+        b.sub("setErrors", cbMock);
+        b.sub("setErrors", cbMock);
+        b.sub("setErrors", cbMock);
+
+        b.request("setErrors");
+        expect(cbMock).toHaveBeenCalledTimes(4);
     });
 
-    it("should call subscribed function", () => {
+    it("should call setErrors with given key", () => {
+        const b = new Bus();
+        const cbMock = jest.fn();
+        const cbMock2 = jest.fn();
+
+        b.sub("setErrors", cbMock, "test");
+        b.sub("setErrors", cbMock2, "randomKey");
+
+        b.request("setErrors", "test");
+        expect(cbMock).toHaveBeenCalled();
+        expect(cbMock2).not.toHaveBeenCalled();
+    });
+
+    it("should throw an error if isValid called without key", () => {
+        const b = new Bus();
+        b.sub("validationStatus", () => {});
+        expect(() => {
+            b.request("validationStatus");
+        }).toThrow();
+    })
+
+    it("should return value if calling validationStatus", () => {
         const b = new Bus();
 
-        const fnMock = jest.fn(() => true);
-        b.sub("random", fnMock);
+        b.sub("validationStatus", () => true, "test");
 
-        expect(fnMock).not.toHaveBeenCalled();
+        const result = b.request("validationStatus", "test");
 
-        const result = b.request("random");
-        expect(fnMock).toHaveBeenCalled();
         expect(result).toBe(true);
     });
 });
