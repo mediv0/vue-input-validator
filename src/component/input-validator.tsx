@@ -35,6 +35,9 @@ export default class Validator extends Vue {
     // make sure callback runs once
     private once = false;
 
+    // debounce timer handler
+    private timer = 0;
+
     // ------------------------------------------------------------------------------
     // WATCH
     // ------------------------------------------------------------------------------
@@ -42,7 +45,11 @@ export default class Validator extends Vue {
     onInputValueChanged(val: string): void {
         if (!this.checks.disable) {
             const { items } = this.checks;
-            this.runTests(val, items);
+            clearTimeout(this.timer);
+
+            this.timer = setTimeout(() => {
+                this.runTests(val, items);
+            }, this.checks.debounce);
         }
     }
 

@@ -22,6 +22,7 @@ export interface IchecksProp {
     hideLabels?: boolean;
     circleSize?: number;
     disable?: boolean;
+    debounce?: number;
     items: checkPropertyItemsType;
 }
 
