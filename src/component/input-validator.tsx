@@ -129,9 +129,16 @@ export default class Validator extends Vue {
     // CHECKING USER TESTS
     // ------------------------------------------------------------------------------
     runTests(value: string, tests: checkPropertyItemsType): void {
-        tests.forEach((t, i) => {
+        tests.forEach(async (t, i) => {
             const { test } = t;
-            const result = this.validator.test(test, value);
+            let result = false;
+
+            // some test may be async
+            try {
+                result = await this.validator.test(test, value);
+            } catch (e) {
+                result = false;
+            }
 
             if (result) {
                 this.setSuccess(i);
