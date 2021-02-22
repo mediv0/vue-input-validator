@@ -82,7 +82,11 @@ export default class Validator extends Vue {
 
     setColorForBarDiv(active: number, color: string): void {
         const _el = this.$refs[`bar${active}`] as HTMLDivElement;
-        _el.style.backgroundColor = color;
+
+        // when hideLine is true that means that there is no _el present in the refs so we have to check this to prevent runtime errors
+        if (_el) {
+            _el.style.backgroundColor = color;
+        }
     }
 
     setSuccess(i: number): void {
