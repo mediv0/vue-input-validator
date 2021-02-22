@@ -175,7 +175,6 @@ export default class Validator extends Vue {
 
     // convert every gray to failed color
     private setErrors(): void {
-        console.log(this.colorTable);
         Object.values(this.colorTable).forEach((color, i) => {
             if (color === this.unchecked) {
                 this.colorTable[i] = this.failed;
