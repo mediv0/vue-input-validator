@@ -241,7 +241,8 @@ describe("input-validator component (user options & validation & other...)", () 
 
         checks: {
             onSuccess: callBackMock,
-            hide: false,
+            hideLabels: false,
+            hideLines: false,
             disable: false,
             circleSize: 8,
             items: [
@@ -261,15 +262,29 @@ describe("input-validator component (user options & validation & other...)", () 
         propsData
     });
 
-    test("label container should not be visible if hide === true", async () => {
+    test("label container should not be visible if hideLabels === true", async () => {
         expect(_wrapper.find(".x_input_validator__labels__label").exists()).toBeTruthy();
 
-        propsData.checks.hide = true;
+        propsData.checks.hideLabels = true;
         _wrapper.vm.$forceUpdate();
 
         await _wrapper.vm.$nextTick();
 
         expect(_wrapper.find(".x_input_validator__labels__label").exists()).toBeFalsy();
+        expect(_wrapper.find(".x_input_validator__labels").exists()).toBeFalsy();
+    });
+
+    test("bar(lines) container should not be visible if hideLines === true", async () => {
+        propsData.checks.hideLines = true;
+        _wrapper.vm.$forceUpdate();
+
+        await _wrapper.vm.$nextTick();
+
+        expect(_wrapper.find(".x_input_validator__bars").exists()).toBeFalsy();
+
+        // reset hideLines to false for other tests
+        propsData.checks.hideLines = false;
+        await _wrapper.vm.$nextTick();
     });
 
     test("should set success color for first Bar Div element if its test pass", async () => {
@@ -292,7 +307,7 @@ describe("input-validator component (user options & validation & other...)", () 
             watcher: "test"
         });
 
-        propsData.checks.hide = false;
+        propsData.checks.hideLabels = false;
         _wrapper.vm.$forceUpdate();
 
         await _wrapper.vm.$nextTick();
