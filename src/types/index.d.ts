@@ -18,7 +18,8 @@ export interface IvalidatorOptions {
 export interface IchecksProp {
     onSuccess?: Function;
     key?: string;
-    hide?: boolean;
+    hideLines?: boolean;
+    hideLabels?: boolean;
     circleSize?: number;
     disable?: boolean;
     items: checkPropertyItemsType;
