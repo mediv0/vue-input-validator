@@ -7,6 +7,8 @@ import { IchecksProp, IvalidatorOptions } from "@/types";
 
 const utils = require("../utils");
 
+jest.useFakeTimers();
+
 describe("input-validator component (color)", () => {
     test("should render validator component with default colors", () => {
         const Vue = createLocalVue();
@@ -124,6 +126,7 @@ describe("input-validator component (validation user test suites)", () => {
         failed: "#000000",
         watcher: "",
         disable: false,
+        debounce: undefined,
         checks: {
             items: [
                 {
@@ -162,6 +165,8 @@ describe("input-validator component (validation user test suites)", () => {
             watcher: "random input"
         });
 
+        jest.advanceTimersByTime(1000);
+
         expect(runTestsSpy).toHaveBeenCalled();
         expect(runTestsSpy).toHaveBeenCalledWith("random input", propsData.checks.items);
 
@@ -172,6 +177,7 @@ describe("input-validator component (validation user test suites)", () => {
         const _localWrapper = shallowMount(validator, {
             propsData: {
                 watcher: "",
+                debounce: undefined,
                 checks: {
                     items: [
                         {
@@ -193,6 +199,8 @@ describe("input-validator component (validation user test suites)", () => {
             watcher: "10"
         });
 
+        jest.advanceTimersByTime(1000);
+
         expect(validatorSpy).toHaveNthReturnedWith(1, false);
         expect(validatorSpy).toHaveNthReturnedWith(2, false);
     });
@@ -201,6 +209,7 @@ describe("input-validator component (validation user test suites)", () => {
         const _localWrapper = shallowMount(validator, {
             propsData: {
                 watcher: "",
+                debounce: undefined,
                 checks: {
                     items: [
                         {
@@ -217,6 +226,8 @@ describe("input-validator component (validation user test suites)", () => {
         await _localWrapper.setProps({
             watcher: "10"
         });
+
+        jest.advanceTimersByTime(1000);
 
         expect(validatorSpy).toHaveNthReturnedWith(1, true);
     });
@@ -244,6 +255,7 @@ describe("input-validator component (user options & validation & other...)", () 
             hideLabels: false,
             hideLines: false,
             disable: false,
+            debounce: undefined,
             circleSize: 8,
             items: [
                 {
@@ -257,7 +269,6 @@ describe("input-validator component (user options & validation & other...)", () 
             ]
         }
     };
-
     const _wrapper = shallowMount(validator, {
         propsData
     });
@@ -294,6 +305,8 @@ describe("input-validator component (user options & validation & other...)", () 
 
         await _wrapper.vm.$nextTick();
 
+        jest.advanceTimersByTime(1000);
+
         expect(
             _wrapper
                 .findAll(".x_input_validator__bars__bar")
@@ -306,6 +319,7 @@ describe("input-validator component (user options & validation & other...)", () 
         await _wrapper.setProps({
             watcher: "test"
         });
+        jest.advanceTimersByTime(1000);
 
         propsData.checks.hideLabels = false;
         _wrapper.vm.$forceUpdate();
@@ -340,6 +354,8 @@ describe("input-validator component (user options & validation & other...)", () 
             watcher: "test"
         });
 
+        jest.advanceTimersByTime(1000);
+
         await _wrapper.vm.$nextTick();
 
         expect(callBackMock).toHaveBeenCalledTimes(1);
@@ -350,6 +366,8 @@ describe("input-validator component (user options & validation & other...)", () 
         _wrapper.vm.$forceUpdate();
 
         await _wrapper.vm.$nextTick();
+
+        jest.advanceTimersByTime(1000);
 
         // color is green because of other tests
         expect(_wrapper.find(".x_input_validator__labels__label__check").attributes().style).toBe(`background-color: ${propsData.success}; width: 20px; height: 20px;`);
@@ -364,9 +382,71 @@ describe("input-validator component (user options & validation & other...)", () 
             watcher: "dummy text"
         });
 
+        jest.advanceTimersByTime(1000);
+
         expect(runTestSpy).not.toHaveBeenCalled();
     });
 });
+
+
+describe("async and debounce", () => {
+    const propsData = {
+        // random dummy colors
+        unchecked: "gray",
+        success: "green",
+        failed: "red",
+        watcher: "",
+
+        checks: {
+            debounce: undefined,
+            circleSize: 8,
+            items: [
+                {
+                    label: "test using regex",
+                    test: /[A-Za-z]/
+                },
+                {
+                    label: "test using function",
+                    test: (val: String) => (val === "test" ? true : false)
+                }
+            ]
+        }
+    };
+
+     const _wrapper = shallowMount(validator, {
+         propsData
+     });
+
+    test("debounce should delay test validation process", async () => {
+        propsData.checks.debounce = 1000 as any;
+        _wrapper.vm.$forceUpdate();
+        await _wrapper.setProps({
+            watcher: "test"
+        });
+
+        jest.advanceTimersByTime(500);
+
+        await _wrapper.vm.$nextTick();
+
+        expect(
+            _wrapper
+                .findAll(".x_input_validator__bars__bar")
+                .at(0)
+                .attributes().style
+        ).toBe(`background-color: ${propsData.unchecked};`);
+
+        jest.advanceTimersByTime(1100);
+
+        expect(
+            _wrapper
+                .findAll(".x_input_validator__bars__bar")
+                .at(0)
+                .attributes().style
+        ).toBe(`background-color: ${propsData.success};`);
+
+        propsData.checks.debounce = 0 as any;
+    });
+})
 
 /*
 
