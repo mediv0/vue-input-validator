@@ -307,6 +307,8 @@ describe("input-validator component (user options & validation & other...)", () 
 
         jest.advanceTimersByTime(1000);
 
+        await _wrapper.vm.$nextTick();
+
         expect(
             _wrapper
                 .findAll(".x_input_validator__bars__bar")
@@ -435,7 +437,9 @@ describe("async and debounce", () => {
                 .attributes().style
         ).toBe(`background-color: ${propsData.unchecked};`);
 
-        jest.advanceTimersByTime(1100);
+        jest.advanceTimersByTime(5000);
+
+        await _wrapper.vm.$nextTick();
 
         expect(
             _wrapper
