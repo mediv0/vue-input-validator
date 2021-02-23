@@ -201,6 +201,10 @@ describe("input-validator component (validation user test suites)", () => {
 
         jest.advanceTimersByTime(1000);
 
+        // waitning for re render on each test
+        await _wrapper.vm.$nextTick();
+
+        expect(validatorSpy).toHaveBeenCalledTimes(2);
         expect(validatorSpy).toHaveNthReturnedWith(1, false);
         expect(validatorSpy).toHaveNthReturnedWith(2, false);
     });
@@ -336,6 +340,8 @@ describe("input-validator component (user options & validation & other...)", () 
                 .attributes().style
         ).toBe(`background-color: ${propsData.success};`);
 
+        await _wrapper.vm.$nextTick();
+
         expect(
             _wrapper
                 .findAll(".x_input_validator__labels__label__check")
@@ -452,12 +458,14 @@ describe("async and debounce", () => {
 });
 
 describe("onError", () => {
+    const dummyEl = document.createElement("div");
     const propsData = {
         // random dummy colors
         unchecked: "gray",
         success: "green",
         failed: "red",
         watcher: "",
+        el: dummyEl,
 
         checks: {
             items: [
@@ -467,7 +475,8 @@ describe("onError", () => {
                 }
             ],
             onError: {
-                msg: "test error msg"
+                msg: "test error msg",
+                highlight: true
             }
         }
     };
@@ -475,29 +484,113 @@ describe("onError", () => {
     const _wrapper = shallowMount(validator, {
         propsData
     });
-    test("if user provide onError  set .x_input_validator to false", () => {
-        expect(_wrapper.find(".x_input_validator").exists()).toBeFalsy();
-        expect(_wrapper.find("p").exists()).toBeTruthy();
+    describe("if showErrorMsg is true", () => {
+        _wrapper.setProps({
+            watcher: "random text"
+        });
+        _wrapper.vm.validateOnError();
+
+        test("should render error message with given text if test fails", () => {
+            expect(_wrapper.find("p").text()).toBe("test error msg");
+        });
+
+        test("if user don't provide color for onError, render with defaul color", () => {
+            expect(
+                _wrapper
+                    .find("p")
+                    .attributes()
+                    .style.includes(`color: ${propsData.failed};`)
+            ).toBe(true);
+        });
+
+        test("if user provide color for onError, render with given color", async () => {
+            (propsData.checks.onError as any).color = "yellow"; // dummy color
+            _wrapper.vm.$forceUpdate();
+            await _wrapper.vm.$nextTick();
+            expect(
+                _wrapper
+                    .find("p")
+                    .attributes()
+                    .style.includes("color: yellow;")
+            ).toBe(true);
+        });
+
+        test("if user dont provide direction, render with default direction", () => {
+            expect(
+                _wrapper
+                    .find("p")
+                    .attributes()
+                    .style.includes("direction: ltr;")
+            ).toBe(true);
+        });
+
+        test("if user do provide direction, render with given direction", async () => {
+            (propsData.checks.onError as any).direction = "rtl";
+            _wrapper.vm.$forceUpdate();
+            await _wrapper.vm.$nextTick();
+            expect(
+                _wrapper
+                    .find("p")
+                    .attributes()
+                    .style.includes("direction: rtl;")
+            ).toBe(true);
+        });
     });
 
-    test("should render error message with given text", () => {
-        expect(_wrapper.find("p").text()).toBe("test error msg");
+    describe("onError highlight", () => {
+        test("should add red highlight around user input if highlight === true", async () => {
+            await _wrapper.vm.validateOnError();
+            expect((_wrapper.props().el as HTMLElement).style.border).toBe("1px solid red");
+        });
+
+        test("should remove red highlight around user input if highlight === false", async () => {
+            (propsData.checks.onError as any).highlight = false;
+            _wrapper.vm.$forceUpdate();
+            await _wrapper.vm.$nextTick();
+            await _wrapper.vm.validateOnError();
+            expect((_wrapper.props().el as HTMLElement).style.border).toBe("1px solid red");
+        });
     });
 
-    test("if user don't provide color for onError, render with defaul color", () => {
-        expect(_wrapper.find("p").attributes().style).toBe(`color: ${propsData.failed};`);
-    });
+    describe("render based on onError", () => {
+        test("if user provide onError  set .x_input_validator to false", () => {
+            const _propsData = {
+                checks: {
+                    items: [
+                        {
+                            label: "test using regex",
+                            test: /[A-Za-z]/
+                        }
+                    ],
+                    onError: {
+                        msg: "test error msg",
+                        highlight: true
+                    }
+                }
+            };
 
-    test("if user provide color for onError, render with given color", async () => {
-        (propsData.checks.onError as any).color = "yellow"; // dummy color
-        _wrapper.vm.$forceUpdate();
-        await _wrapper.vm.$nextTick();
-        expect(_wrapper.find("p").attributes().style).toBe("color: yellow;");
-    });
+            const _wrapper2 = shallowMount(validator, {
+                propsData: _propsData
+            });
+            expect(_wrapper2.find(".x_input_validator").exists()).toBeFalsy();
+        });
+
+        test("if user don't provide onError  set .x_input_validator to true", async () => {
+            const _propsData = {
+                checks: {
+                    items: [
+                        {
+                            label: "test using regex",
+                            test: /[A-Za-z]/
+                        }
+                    ],
+                }
+            };
+
+            const _wrapper2 = shallowMount(validator, {
+                propsData: _propsData
+            });
+            expect(_wrapper2.find(".x_input_validator").exists()).toBeTruthy();
+        });
+    })
 });
-
-/*
-
-
-
-*/
