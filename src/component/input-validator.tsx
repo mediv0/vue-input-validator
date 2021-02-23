@@ -81,7 +81,13 @@ export default class Validator extends Vue {
         const key = this.checks.key;
 
         if (!this.checks.onError) {
-            bus.sub("validationStatus", () => this.watchBarDiv === this.checks.items.length - 1, key);
+            bus.sub(
+                "validationStatus",
+                () => {
+                    return this.watchBarDiv === this.checks.items.length - 1 && this.watchBarDiv !== 0;
+                },
+                key
+            );
             bus.sub("setErrors", this.setErrors, key);
         } else {
             bus.sub("validate", this.validateOnError, key);
