@@ -1,4 +1,5 @@
 import { VueConstructor } from "vue";
+import { setPrototype } from "./helpers";
 import injectDirective from "./injectDirective";
 import { IvalidatorOptions } from "./types";
 
@@ -13,6 +14,7 @@ const __validatorOptions__: IvalidatorOptions = {
 };
 
 const install = (context: VueConstructor, userOptions: IvalidatorOptions) => {
+    setPrototype(context);
     const _options = {
         ...__validatorOptions__,
         ...userOptions

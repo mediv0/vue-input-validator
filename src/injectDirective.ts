@@ -20,7 +20,6 @@ const injectDirective = (Vue: VueConstructor, options: IvalidatorOptions) => {
             const _constructor = injectReactiveProps(component, _props);
             const _component = _constructor.$mount();
             createValidatorContainer(el, _component.$el);
-            setPrototype(Vue);
 
             // ------------------------------------------------------------------------------
             // WATCH USER INPUT
