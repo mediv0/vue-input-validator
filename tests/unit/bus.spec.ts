@@ -8,10 +8,12 @@ describe("validator bus", () => {
         expect(b1).toEqual(b2);
     });
 
-    it("should return false if event is not defined", () => {
+    it("should throw if event is not defined", () => {
         const b = new Bus();
 
-        expect(b.request("validationStatus", "random key")).toBe(false);
+        expect(() => {
+            b.request("validationStatus", "random key");
+        }).toThrow();
     });
 
     it("should subscribe multiple events if their eventName is same", () => {
