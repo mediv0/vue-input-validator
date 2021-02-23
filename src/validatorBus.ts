@@ -12,13 +12,13 @@ const Bus = class ValidatorBus {
         ValidatorBus.instance = this;
     }
 
-    public request(name: eventType, requestkey?: string): boolean | never | undefined {
+    public request(name: eventType, requestkey?: string): any {
         const _sub = this.subscribers[name];
 
         if (_sub) {
             const _cb = _sub.find(o => o.key === requestkey);
             if (name === "validationStatus" || name === "validate") {
-                return this.handleValidationStatus(_cb);
+                return this.handleValidationStatus(_cb, requestkey);
             } else {
                 this.handleSetErrors(_cb, _sub);
             }
@@ -38,11 +38,11 @@ const Bus = class ValidatorBus {
         });
     }
 
-    private handleValidationStatus(_cb: IsubscribersObjectType | undefined): boolean | never {
+    private handleValidationStatus(_cb: IsubscribersObjectType | undefined, requestkey: string): boolean | never {
         if (_cb) {
             return _cb.handler();
         } else {
-            throw new Error("key is undefiend, please provide a key to use this method");
+            throw new Error(`the key ${requestkey} does not exist.`);
         }
     }
     private handleSetErrors(_cb: IsubscribersObjectType | undefined, _subs: eventSubscribersItemList): void {
