@@ -206,29 +206,33 @@ export default class Validator extends Vue {
     // TEMPLATE
     // ------------------------------------------------------------------------------
     render(h: CreateElement) {
-        return (
-            <div class="x_input_validator">
-                {!this.checks.hideLines && (
-                    <div class="x_input_validator__bars">
-                        {this.checks.items.map((item, i) => {
-                            return <div ref={`bar${i}`} class="x_input_validator__bars__bar" style={{ backgroundColor: this.unchecked }}></div>;
-                        })}
-                    </div>
-                )}
+        if (!this.checks.onError) {
+            return (
+                <div class="x_input_validator">
+                    {!this.checks.hideLines && (
+                        <div class="x_input_validator__bars">
+                            {this.checks.items.map((item, i) => {
+                                return <div ref={`bar${i}`} class="x_input_validator__bars__bar" style={{ backgroundColor: this.unchecked }}></div>;
+                            })}
+                        </div>
+                    )}
 
-                {!this.checks.hideLabels && (
-                    <div class="x_input_validator__labels">
-                        {this.checks.items.map((item, i) => {
-                            return (
-                                <div class="x_input_validator__labels__label">
-                                    <div class="x_input_validator__labels__label__check" style={{ backgroundColor: this.color[i], width: `${this.checks.circleSize || 8}px`, height: `${this.checks.circleSize || 8}px` }}></div>
-                                    <p style={{ color: this.color[i] }}>{item.label}</p>
-                                </div>
-                            );
-                        })}
-                    </div>
-                )}
-            </div>
-        );
+                    {!this.checks.hideLabels && (
+                        <div class="x_input_validator__labels">
+                            {this.checks.items.map((item, i) => {
+                                return (
+                                    <div class="x_input_validator__labels__label">
+                                        <div class="x_input_validator__labels__label__check" style={{ backgroundColor: this.color[i], width: `${this.checks.circleSize || 8}px`, height: `${this.checks.circleSize || 8}px` }}></div>
+                                        <p style={{ color: this.color[i] }}>{item.label}</p>
+                                    </div>
+                                );
+                            })}
+                        </div>
+                    )}
+                </div>
+            );
+        } else {
+            return <p style={{ color: this.checks.onError.color || this.failed }}>{this.checks.onError.msg}</p>;
+        }
     }
 }

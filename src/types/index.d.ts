@@ -24,6 +24,14 @@ export interface IchecksProp {
     disable?: boolean;
     debounce?: number;
     items: checkPropertyItemsType;
+    onError?: IonError;
+}
+
+export interface IonError {
+    msg: string;
+    color?: string;
+    highlight?: boolean;
+    direction?: "rtl" | "ltr";
 }
 
 export interface IvalidatorStrategy {
