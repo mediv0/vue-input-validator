@@ -68,6 +68,13 @@ export interface IvalidatorPrototypeDefinition {
      * @returns {void}
      */
     showError(key?: string): void;
+
+    /**
+     * @description Allow user to validate on click and events
+     * @param {string} key
+     * @returns {boolean}
+     */
+    validate(...key: any): void;
 }
 
 import Vue, { PluginFunction, VueConstructor } from "vue";
@@ -79,7 +86,7 @@ export type DomManipulation = (oldNode: HTMLElement, newNode: HTMLElement) => vo
 export type VueRefs = HTMLElement | HTMLElement[] | Vue | Element | Vue[] | Element[];
 export type checkPropertyItemsType = Array<{ label: string; test: functionOrRegex }>;
 export type functionOrRegex = RegExp | Function;
-export type eventType = "validationStatus" | "setErrors";
+export type eventType = "validationStatus" | "setErrors" | "validate";
 
 export default validatorDefinition;
 export default validator;

@@ -1,6 +1,6 @@
 import Vue from "vue";
 import { VueConstructor } from "vue/types/umd";
-import { DomManipulation, IreactiveProps } from "./types";
+import { DomManipulation, IreactiveProps, IvalidatorPrototypeDefinition } from "./types";
 import Bus from "./validatorBus";
 
 export const replaceElement: DomManipulation = (oldNode, newNode): void => {
@@ -37,13 +37,20 @@ export const injectReactiveProps = (component: Function, data: IreactiveProps) =
 
 export const setPrototype = (Vue: VueConstructor): void => {
     const bus = new Bus();
-    Vue.prototype.$validator = {
+    const prototypeMethods: IvalidatorPrototypeDefinition = {
         isValid(key: string): boolean {
             return bus.request("validationStatus", key);
         },
 
         showError(key?: string): void {
             bus.request("setErrors", key);
+        },
+
+        validate(...keys: string[]) {
+            keys.forEach(key => {
+                bus.request("validate", key);
+            });
         }
     };
+    Vue.prototype.$validator = prototypeMethods;
 };
