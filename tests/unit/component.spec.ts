@@ -390,7 +390,6 @@ describe("input-validator component (user options & validation & other...)", () 
     });
 });
 
-
 describe("async and debounce", () => {
     const propsData = {
         // random dummy colors
@@ -415,9 +414,9 @@ describe("async and debounce", () => {
         }
     };
 
-     const _wrapper = shallowMount(validator, {
-         propsData
-     });
+    const _wrapper = shallowMount(validator, {
+        propsData
+    });
 
     test("debounce should delay test validation process", async () => {
         propsData.checks.debounce = 1000 as any;
@@ -450,7 +449,52 @@ describe("async and debounce", () => {
 
         propsData.checks.debounce = 0 as any;
     });
-})
+});
+
+describe("onError", () => {
+    const propsData = {
+        // random dummy colors
+        unchecked: "gray",
+        success: "green",
+        failed: "red",
+        watcher: "",
+
+        checks: {
+            items: [
+                {
+                    label: "test using regex",
+                    test: /[A-Za-z]/
+                }
+            ],
+            onError: {
+                msg: "test error msg"
+            }
+        }
+    };
+
+    const _wrapper = shallowMount(validator, {
+        propsData
+    });
+    test("if user provide onError  set .x_input_validator to false", () => {
+        expect(_wrapper.find(".x_input_validator").exists()).toBeFalsy();
+        expect(_wrapper.find("p").exists()).toBeTruthy();
+    });
+
+    test("should render error message with given text", () => {
+        expect(_wrapper.find("p").text()).toBe("test error msg");
+    });
+
+    test("if user don't provide color for onError, render with defaul color", () => {
+        expect(_wrapper.find("p").attributes().style).toBe(`color: ${propsData.failed};`);
+    });
+
+    test("if user provide color for onError, render with given color", async () => {
+        (propsData.checks.onError as any).color = "yellow"; // dummy color
+        _wrapper.vm.$forceUpdate();
+        await _wrapper.vm.$nextTick();
+        expect(_wrapper.find("p").attributes().style).toBe("color: yellow;");
+    });
+});
 
 /*
 
