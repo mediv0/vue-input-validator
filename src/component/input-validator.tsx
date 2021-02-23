@@ -38,16 +38,19 @@ export default class Validator extends Vue {
     // debounce timer handler
     private timer = 0;
 
+    // validation default value when onError is set
+    private showOnErrorMsg = false;
+
     // ------------------------------------------------------------------------------
     // WATCH
     // ------------------------------------------------------------------------------
     @Watch("watcher")
     onInputValueChanged(val: string): void {
-        if (!this.checks.disable) {
-            const { items } = this.checks;
+        if (!this.checks.disable && !this.checks.onError) {
             clearTimeout(this.timer);
 
             this.timer = setTimeout(() => {
+                const { items } = this.checks;
                 this.runTests(val, items);
             }, this.checks.debounce);
         }
@@ -73,9 +76,13 @@ export default class Validator extends Vue {
     public mounted(): void {
         // EVENT LISETNER
         const bus = new Bus();
-        // $validator.isValid event
-        bus.sub("validationStatus", () => this.watchBarDiv === this.checks.items.length - 1, this.checks.key);
-        bus.sub("setErrors", this.setErrors, this.checks.key);
+
+        if (!this.checks.onError) {
+            bus.sub("validationStatus", () => this.watchBarDiv === this.checks.items.length - 1, this.checks.key);
+            bus.sub("setErrors", this.setErrors, this.checks.key);
+        } else {
+            bus.sub("validate", this.validateOnError, this.checks.key);
+        }
     }
 
     // #region  METHODS
@@ -128,24 +135,27 @@ export default class Validator extends Vue {
     // ------------------------------------------------------------------------------
     // CHECKING USER TESTS
     // ------------------------------------------------------------------------------
-    runTests(value: string, tests: checkPropertyItemsType): void {
-        tests.forEach(async (t, i) => {
-            const { test } = t;
+    async runTests(value: string, tests: checkPropertyItemsType): Promise<boolean | void> {
+        const validationResults: Array<boolean> = [];
+
+        for (let i = 0; i < tests.length; i++) {
             let result = false;
 
-            // some test may be async
             try {
+                const { test } = tests[i];
                 result = await this.validator.test(test, value);
             } catch (e) {
                 result = false;
             }
 
-            if (result) {
-                this.setSuccess(i);
-            } else {
-                this.setUnchecked(i);
-            }
-        });
+            validationResults.push(result);
+        }
+
+        if (this.checks.onError) {
+            return validationResults.every(r => r === true);
+        } else {
+            this.setValidatorLineAndLabelColors(validationResults);
+        }
     }
 
     validateTest(tests: checkPropertyItemsType): void {
@@ -179,6 +189,10 @@ export default class Validator extends Vue {
         return _fn;
     }
 
+    async validateOnError(): Promise<void> {
+        const result = await this.runTests(this.watcher, this.checks.items);
+    }
+
     // ------------------------------------------------------------------------------
     // SETTING COLORS
     // ------------------------------------------------------------------------------
@@ -196,6 +210,16 @@ export default class Validator extends Vue {
         Object.values(this.colorTable).forEach((color, i) => {
             if (color === this.unchecked) {
                 this.colorTable[i] = this.failed;
+            }
+        });
+    }
+
+    setValidatorLineAndLabelColors(results: boolean[]): void {
+        results.forEach((res, i) => {
+            if (res) {
+                this.setSuccess(i);
+            } else {
+                this.setUnchecked(i);
             }
         });
     }
@@ -232,7 +256,9 @@ export default class Validator extends Vue {
                 </div>
             );
         } else {
-            return <p style={{ color: this.checks.onError.color || this.failed }}>{this.checks.onError.msg}</p>;
+            {
+                this.showOnErrorMsg && <p style={{ color: this.checks.onError.color || this.failed }}>{this.checks.onError.msg}</p>;
+            }
         }
     }
 }
