@@ -1,6 +1,7 @@
 import Vue from "vue";
 import { VueConstructor } from "vue/types/umd";
 import { DomManipulation, IreactiveProps, IvalidatorPrototypeDefinition } from "./types";
+import { createObjectFromArray, getFailedValidationByKeys } from "./utils";
 import Bus from "./validatorBus";
 
 export const replaceElement: DomManipulation = (oldNode, newNode): void => {
@@ -47,9 +48,25 @@ export const setPrototype = (Vue: VueConstructor): void => {
         },
 
         validate(...keys: string[]) {
+            const promises: Array<Promise<boolean>> = [];
             keys.forEach(key => {
-                bus.request("validate", key);
+                promises.push(bus.request("validate", key));
             });
+
+            return Promise.all(promises)
+                .then(results => {
+                    const validationsResult = createObjectFromArray(keys, results);
+                    const failedValidations = getFailedValidationByKeys(validationsResult);
+
+                    failedValidations.forEach(key => {
+                        bus.request("setOnErrors", key);
+                    });
+
+                    return validationsResult;
+                })
+                .catch(e => {
+                    throw new Error(e);
+                });
         }
     };
     Vue.prototype.$validator = prototypeMethods;

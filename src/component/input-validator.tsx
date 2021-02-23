@@ -78,11 +78,14 @@ export default class Validator extends Vue {
         // EVENT LISETNER
         const bus = new Bus();
 
+        const key = this.checks.key;
+
         if (!this.checks.onError) {
-            bus.sub("validationStatus", () => this.watchBarDiv === this.checks.items.length - 1, this.checks.key);
-            bus.sub("setErrors", this.setErrors, this.checks.key);
+            bus.sub("validationStatus", () => this.watchBarDiv === this.checks.items.length - 1, key);
+            bus.sub("setErrors", this.setErrors, key);
         } else {
-            bus.sub("validate", this.validateOnError, this.checks.key);
+            bus.sub("validate", this.validateOnError, key);
+            bus.sub("setOnErrors", this.setOnErrors, key);
         }
     }
 
@@ -190,14 +193,11 @@ export default class Validator extends Vue {
         return _fn;
     }
 
-    async validateOnError(): Promise<void> {
+    async validateOnError(): Promise<boolean> {
         this.showOnErrorMsg = false;
         const result = await this.runTests(this.watcher, this.checks.items);
 
-        if (!result) {
-            this.checks.onError?.highlight && (this.el.style.border = `1px solid ${this.checks.onError.color || this.failed}`);
-            this.showOnErrorMsg = true;
-        }
+        return Promise.resolve(result as boolean);
     }
 
     // ------------------------------------------------------------------------------
@@ -219,6 +219,12 @@ export default class Validator extends Vue {
                 this.colorTable[i] = this.failed;
             }
         });
+    }
+
+    // set red color for onError message
+    setOnErrors(): void {
+        this.checks.onError?.highlight && (this.el.style.border = `1px solid ${this.checks.onError.color || this.failed}`);
+        this.showOnErrorMsg = true;
     }
 
     setValidatorLineAndLabelColors(results: boolean[]): void {
