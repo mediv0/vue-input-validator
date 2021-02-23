@@ -12,6 +12,7 @@ export default class Validator extends Vue {
     @Prop() readonly unchecked!: string;
     @Prop() readonly checks!: IchecksProp;
     @Prop() readonly watcher!: string;
+    @Prop() readonly el!: HTMLElement;
 
     // ------------------------------------------------------------------------------
     // DATA
@@ -190,7 +191,13 @@ export default class Validator extends Vue {
     }
 
     async validateOnError(): Promise<void> {
+        this.showOnErrorMsg = false;
         const result = await this.runTests(this.watcher, this.checks.items);
+
+        if (!result) {
+            this.checks.onError?.highlight && (this.el.style.border = `1px solid ${this.checks.onError.color || this.failed}`);
+            this.showOnErrorMsg = true;
+        }
     }
 
     // ------------------------------------------------------------------------------
@@ -230,7 +237,20 @@ export default class Validator extends Vue {
     // TEMPLATE
     // ------------------------------------------------------------------------------
     render(h: CreateElement) {
-        if (!this.checks.onError) {
+        if (this.checks.onError) {
+            if (this.showOnErrorMsg) {
+                return h(
+                    "p",
+                    {
+                        style: {
+                            color: this.checks.onError.color || this.failed,
+                            direction: this.checks.onError.direction || "ltr"
+                        }
+                    },
+                    `${this.checks.onError.msg}`
+                );
+            }
+        } else {
             return (
                 <div class="x_input_validator">
                     {!this.checks.hideLines && (
@@ -255,10 +275,6 @@ export default class Validator extends Vue {
                     )}
                 </div>
             );
-        } else {
-            {
-                this.showOnErrorMsg && <p style={{ color: this.checks.onError.color || this.failed }}>{this.checks.onError.msg}</p>;
-            }
         }
     }
 }
