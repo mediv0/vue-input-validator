@@ -38,7 +38,7 @@ const Bus = class ValidatorBus {
         });
     }
 
-    private handleValidationStatus(_cb: IsubscribersObjectType | undefined, requestkey: string): boolean | never {
+    private handleValidationStatus(_cb: IsubscribersObjectType | undefined, requestkey?: string): boolean | never {
         if (_cb) {
             return _cb.handler();
         } else {
