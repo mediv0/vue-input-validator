@@ -13,7 +13,8 @@ const injectDirective = (Vue: VueConstructor, options: IvalidatorOptions) => {
                 // saving a refrence to the user options
                 checks: _value,
                 ...options,
-                watcher: ""
+                watcher: "",
+                el: el
             };
 
             const _constructor = injectReactiveProps(component, _props);
