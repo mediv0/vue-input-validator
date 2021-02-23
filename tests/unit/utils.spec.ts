@@ -1,4 +1,4 @@
-import { isPromise, isUndefined } from "@/utils";
+import { createObjectFromArray, getFailedValidationByKeys, isPromise, isUndefined } from "@/utils";
 
 describe("utils", () => {
     test("isPromise should return true if given function is promise", () => {
@@ -26,4 +26,26 @@ describe("utils", () => {
         expect(isUndefined(g)).toBe(true);
         expect(isUndefined(1)).toBe(false);
     })
+
+    test("createObjectFromArray should create key value pairs", () => {
+        const keys = ["test1", "test2", "test3"];
+        const values = [true, false, true];
+
+        expect(createObjectFromArray(keys, values)).toEqual({
+            test1: true,
+            test2: false,
+            test3: true
+        })
+    })
+
+    test("getFailedValidationByKeys should return keys of failed validations", () => {
+        const dummyResult = {
+            test1: false,
+            test2: true,
+            test3: true,
+            test4: false,
+        }
+
+        expect(getFailedValidationByKeys(dummyResult)).toEqual(["test1", "test4"]);
+    });
 })
