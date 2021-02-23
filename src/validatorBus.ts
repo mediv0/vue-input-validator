@@ -12,19 +12,20 @@ const Bus = class ValidatorBus {
         ValidatorBus.instance = this;
     }
 
-    public request(name: eventType, requestkey?: string): false | any {
+    public request(name: eventType, requestkey?: string): boolean | never | undefined {
         const _sub = this.subscribers[name];
 
         if (_sub) {
             const _cb = _sub.find(o => o.key === requestkey);
-            if (name === "validationStatus") {
+            if (name === "validationStatus" || name === "validate") {
                 return this.handleValidationStatus(_cb);
             } else {
                 this.handleSetErrors(_cb, _sub);
             }
+        } else {
+            // convert to throw error
+            throw new Error(`event ${name} does not have any caller,`);
         }
-
-        return false;
     }
 
     public sub(event: eventType, cb: Function, key = ""): void {
