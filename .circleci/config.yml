@@ -2,11 +2,24 @@ version: 2.1
 
 # Define the jobs we want to run for this project
 jobs:
-  build:
+  test:
     docker:
-      - image: circleci/node:14.15.4
-      
+      - image: circleci/node:14.15.4  
     steps:
       - checkout
+      - restore_cache:
+          keys:
+          - v1-deps-{{ checksum "package-lock.json" }}
+          - v1-deps-
       - run: npm install
+      - save_cache:
+          key: v1-deps-{{ checksum "package-lock.json" }}
+          paths:
+            - node_modules
       - run: npm run test
+
+workflows:
+  version: 2
+  testing packages:
+    jobs:
+      - test
