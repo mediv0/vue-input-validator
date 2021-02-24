@@ -1,4 +1,4 @@
-# 🛡️ Vue-input-validator
+# 🛡️ Vue-input-validator [![CodeFactor](https://www.codefactor.io/repository/github/mediv0/vue-input-validator/badge)](https://www.codefactor.io/repository/github/mediv0/vue-input-validator) [![license](https://img.shields.io/github/license/mediv0/vue-input-validator)](https://img.shields.io/github/license/mediv0/vue-input-validator)
 
 ## What is this package all about?
 Using this package, you can create validation for your inputs without the need for additional settings and only with the help of a single directive. You can create custom validation with the help of regex or functions and it will automatically append to your textbox!
@@ -6,7 +6,8 @@ Using this package, you can create validation for your inputs without the need f
 - Lightweight (4kb gzipped) ☁️
 - Simple API 🎈
 - Customizable 🧰
-- Easy to use 🥷
+- Support for async & ajax validation 👊
+- Easy to use ✔️
 - Mobile-friendly 📱
 - TypeScript support 🔒
 
@@ -89,7 +90,7 @@ For more info about validator options check:  [Plugin options](#plugin-options) 
 
 | Property name | default value |  description                                  | is optional   |
 | ------------- |:-------------:| :---------------------------------------------| :------------:|
-| name          | validator     | `changing the name of directiv`               |      ✅      |       
+| name          | validator     | `changing the name of directive`               |      ✅      |       
 | success       | #2DE68F       | `color when validation is successful`         |      ✅      |       
 | unchecked     | #979797       | `default color when rendering the validator`  |      ✅      |       
 | failed        | #FF4343       | `color when validation fails`                 |      ✅      |        
@@ -218,10 +219,10 @@ onError options:
 | highlight     | false                  | `show red border highlight around your input when validation fails`             |      true - false   |       
 | direction     | ltr                    | `direction of your error message`                                               |      ltr - rtl      |   
 
-## 🚨 when using this option:
+## 🚨 when using onError:
 - **Options: disable, hideLables, hideLines, circleSize, onSuccess, debounce will not work anymore**
 - **isValid and showError hooks are disabled when using onError**
-- **onError will expose [`validate hook`](#validate-hook) that you can use to validate your inputs**
+- **onError will expose [`validate hook`](#$validator.isValid(key):-boolean) that you can use to validate your inputs**
 
 this is useful when if you don't want to show default style of validator under your component, and disable its realtime validation checking
 
@@ -303,8 +304,10 @@ if you don't pass the key to this function, every input that uses v-validator di
 #### `$validator.validate(...keys): Promise<boolean[]>`
 use this function to validate your forms(inputs) or events, `only works when onError is set in your options object`
 
-this function will return a promise of key value pairs after all of validations are done.
+this function will return a promise of key value pairs after all validations are done.
 also if you want to chain multiple validations you can pass their keys as argument and get the result of validations in return
+
+
 **if validation fails, validate will show your error under bonded input**
 
 usage: 
@@ -370,6 +373,11 @@ take note that if you chain multiple tests inside a option (take email option in
     }
 
 ```
+
+
+#### check [`Examples`](#examples) to get started with this package
+
+
 <br />
 
 ### Styling
@@ -397,8 +405,6 @@ as we know validator directive will create a span container and inject your inpu
 </style>
 
 ```
-
-#### check [`Examples`](#examples) to get started with this package
 
 <br />
 
