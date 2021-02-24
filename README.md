@@ -439,7 +439,11 @@ Check [public folder](https://github.com/mediv0/vue-input-validator/tree/master/
 
 ### Contribution
 
-Please make sure to read the [Contributing Guide](https://github.com/mediv0/v-bucket/blob/master/.github/contributing.md) before making a pull request.
+1.  [Fork the project](https://github.com/XeniacDev/xmodal/archive/master.zip)
+2.  Create your feature branch (`git checkout -b new-feature-branch`)
+3.  Commit your changes (`git commit -am 'add new feature'`)
+4.  Push to the branch (`git push origin new-feature-branch`)
+5.  [Submit a pull request!](https://github.com/XeniacDev/xmodal/pulls)
 
 **Feel free to request new features!**
 
