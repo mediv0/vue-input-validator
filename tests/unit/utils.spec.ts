@@ -7,7 +7,7 @@ describe("utils", () => {
         }
 
         const fn2 = async () => {
-            return await fn1();
+            return fn1();
         }
 
 
