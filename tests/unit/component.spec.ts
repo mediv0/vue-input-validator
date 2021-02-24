@@ -548,14 +548,14 @@ describe("onError", () => {
             // reset el styles on each test
             dummyEl.style.border = "";
         }) 
-        test.only("should add red highlight around user input if highlight === true", async () => {
+        test("should add red highlight around user input if highlight === true", async () => {
             _wrapper.vm.setOnErrors();
             await _wrapper.vm.$nextTick();
             expect((_wrapper.props().el as HTMLElement).style.border).toBe("1px solid red");
         });
 
 
-        test.only("should remove red highlight around user input if highlight === false", async () => {
+        test("should remove red highlight around user input if highlight === false", async () => {
             (propsData.checks.onError as any).highlight = false;
             _wrapper.vm.$forceUpdate();
             await _wrapper.vm.$nextTick();
