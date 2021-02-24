@@ -1,9 +1,12 @@
-Run-With-Node:
+version: 2.1
+
+# Define the jobs we want to run for this project
+jobs:
+  build:
     docker:
-      - image: circleci/node:10-browsers
+      - image: circleci/node:14.15.4
+      
     steps:
       - checkout
-      - run:
-          name: install and run tests
-          command: |
-            yarn install && yarn test
+      - run: npm install
+      - run: npm run test
