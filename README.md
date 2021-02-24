@@ -1,7 +1,7 @@
 # 🛡️ Vue-input-validator [![CodeFactor](https://www.codefactor.io/repository/github/mediv0/vue-input-validator/badge)](https://www.codefactor.io/repository/github/mediv0/vue-input-validator) [![license](https://img.shields.io/github/license/mediv0/vue-input-validator)](https://img.shields.io/github/license/mediv0/vue-input-validator)
 
 ## What is this package all about?
-Using this package, you can create validation for your inputs without the need for additional settings and only with the help of a single directive. You can create custom validation with the help of regex or functions and it will automatically append to your textbox!
+By using this package, you can create input validators only with the help of a single directive without the need for additional settings; You can create a custom validator with the help of regex or functions, and it will automatically append to your textbox!
 
 - Lightweight (4kb gzipped) ☁️
 - Simple API 🎈
@@ -47,7 +47,7 @@ yarn add @mediv0/vue-input-validator
 
 ### Usage
 
-import & use the package
+You can import and use the package like below:
 ```javascript index.js
 import Vue from "vue;
 import validator from @mediv0/vue-input-validator;
@@ -56,7 +56,7 @@ Vue.use(validator, options);
 
 ```
 
-in your component
+Add these lines to your component:
 ```javascript
 <template>
     <div id="App">
@@ -77,11 +77,11 @@ export default {
 </script>
 
 ```
-v-validator directive with wrapp your input in a span container and add validation component to it under the input (picture below)
+the v-validator directive will wrap your input in a span container and also adds the input-validator component to the span container. (See the picture below)
 
 ![input validator component](https://i.imgur.com/WTqtTkW.jpg "input validator component")
 
-For more info about validator options check:  [Plugin options](#plugin-options) and [User options](#User-options)
+For more information about validator options, please check:  [Plugin options](#plugin-options) and [User options](#User-options)
 
 <br />
 
@@ -98,7 +98,7 @@ For more info about validator options check:  [Plugin options](#plugin-options) 
 
 
 
-you can pass these options when initiating the plugin.
+You can pass these options while initiating the plugin.
 
 ```javascript
 
@@ -117,39 +117,39 @@ Vue.use(validator, {
 
 
 ### User options
-these options are component-level properties that are reactive and can be changed anytime in your app
+These options are reactive component-level properties and can be changed anytime in your app.
 
 <br />
 
 #### **`key: string  -  default: undefiend`**
-if you have multiple validator instances on your page, you can use this option to give them unique names and access those validators by their name across your app.
+If you have multiple validator instances on your page, you can use this option to give them unique names and access those validators by their name across your app.
 
 #### **`hideLines: boolean  -  default: false`**
-this option will hide or show lines under your input.
+With this option, you can show or hide the lines below your input.
 
 #### **`hideLabels: boolean  -  default: false`**
-this option will hide or show labels under your input based on given input.
+With this option, you can show or hide the labels below your input based on the entered input.
 
 #### **`circleSize: number  -  default: 8`**
-this option will change size of lable's circle (use px-pixle to set height & width).
+With this option, you can change the size of the circle of each label (use px-pixle to set height & width).
 
 #### **`disable: boolean  -  default: false`**
-this option will disable validator functionality.
+With this option, you can enable or disable the validator functionality.
 
 #### **`items:  Array<{ label: string; test: Function | RegExp }>`**
-this option will take Array of Objects that contain your validation rules.
+This option will take an Array of Objects that contain your validation rules.
 
 #### **`onSuccess:  Callback() => boolean  -  default: null`**
-this option will take a callback and run it when all validations pass.
+This option will take a callback and run it when all of the validations pass.
 
 <br />
 
-the object that is passing to items property should have two keys: `label` and `test`
-- **label** is a string value that describes your test
-- **test** can be a regex or function depending on your needs. you can implement any test(validation) and there are no restrictions in this regard.
+The object that is passing to the items property should have two keys: `label` and `test`
+- **label** is a string value that describes your test.
+- **test** can be a regex or function depending on your needs. You can implement any test (validation) and there are no restrictions in this regard.
 
 **`Using test with function`**
-🚨 if you want pass function the the test property take note that this function must have return type true or false, also this function will take current value of bonded input as its parameter
+🚨 If you want to pass the test property to the function, take note that this function must return a boolean type, also this function will take the current value of bonded input as its parameter.
 
 ```javascript
 items: [
@@ -169,11 +169,11 @@ items: [
 <br />
 
 ### Asynchronous validation
-the validator component can also support async tests. for example, if you need to validate your info from a server you can use async tests.
+The validator component also supports async tests. For example, if you need to validate your info from a server you can use async tests.
 
-**Remember that async tests must return true or false***
+**Remember that async tests must return boolean***
 
-example below will show you how you can use async tests:
+the below example will show you how to use async tests:
 ```javascript
 ...
 test: (val) => {
@@ -190,8 +190,7 @@ test: (val) => {
 ...
 ```
 
-⚠️ You might notice that the async validation is activated every time user hits the keyboard, this would cause performance issue if we are making ajax request.
-to fix this issue you can youse debounce option. we set the **`debounce`** option to half a second (for example), so that the validation is postponed until user stops typing for half a second.
+⚠️ You might notice that the async validation is activated every time user hits the keyboard, this would cause a performance issue if we are making an ajax request. To fix this issue you can use the denounce option. For example, we can set the debounce option to half a second (500 milliseconds), so that the validation is postponed until the user stops typing for half a second.
 
 ```javascript
 const options = {
@@ -199,7 +198,7 @@ const options = {
   debounce: 500 // in milliseconds
 }
 ```
-also debouce works with both sync & async
+the debounce works with both sync and async.
 
 <br />
 
@@ -208,23 +207,23 @@ A list of all options is also available for you to check [options example](https
 <br />
 
 ### onError
-if you don't want to show labels or lines under your input or if you want just to validate your input on some events or special conditions, you can set onError option in your option object.
+If you don't want to show labels or lines below your input or if you just want to validate your input on some events or special conditions, you can set onError options in your option object.
 
 onError options:
 
 | Option name   | default value          |  description                                                                    | possible values     |
 | ------------- |:----------------------:| :-------------------------------------------------------------------------------| :------------------:|
 | msg           | undefiend              | `The message that will be displayed when validation fails`                      |      strings        |       
-| color         | default plugin color   | `this can be any color. if if do not specify, this will use default color `     |      any color      |       
+| color         | default plugin color   | `This can be any color. If not specified, it will use the default color`     |      any color      |       
 | highlight     | false                  | `show red border highlight around your input when validation fails`             |      true - false   |       
 | direction     | ltr                    | `direction of your error message`                                               |      ltr - rtl      |   
 
 ## 🚨 when using onError:
-- **Options: disable, hideLables, hideLines, circleSize, onSuccess, debounce will not work anymore**
-- **isValid and showError hooks are disabled when using onError**
-- **onError will expose [`validate hook`](#$validator.isValid(key):-boolean) that you can use to validate your inputs**
+- **Options: disable, hideLables, hideLines, circleSize, onSuccess, debounce will not work anymore.**
+- **isValid and showError hooks are disabled when using onError.**
+- **onError will expose [`validate hook`](#$validator.isValid(key):-boolean) that you can use to validate your inputs.**
 
-this is useful when if you don't want to show default style of validator under your component, and disable its realtime validation checking
+This is useful when you don't want to show the default style of validator under your component and disable its real-time validation checking.
 
 A list of all options is also available for you to check [options example](https://github.com/mediv0/vue-input-validator/blob/master/public/validatorOptions.ts)
 
@@ -232,7 +231,7 @@ A list of all options is also available for you to check [options example](https
 <br />
 
 
-⚠️ for typescript users you can change your Object type to `IchecksProp` for type checking.
+⚠️ For typescript users, you can change your Object type to `IchecksProp` for type checking.
 ```javascript
 import { IchecksProp } from "@mediv0/vue-input-validator";
 
@@ -246,13 +245,13 @@ validatorOptions: IchecksProp = { ... ]
 <br />
 
 ### Hooks
-there are 3 hooks that will be exposed on Vue instance. these hooks are global and can be accessed across your app
+there are 3 hooks that will be exposed on Vue instance. These hooks are global and can be accessed across your app.
 
 #### `$validator.isValid(key): boolean`
-Checks if the validation is done or not - `Only works when you dont set onError in your options`
+Checks if the validation is done or not - `Only works when you haven't set onError in your options.`
 
 
-isValid takes an argument, key of your option, and check if that option is passed or not.
+isValid takes an argument, the key of your option, and checks if that option is passed or not.
 
 **example**
 ```javascript
@@ -279,10 +278,10 @@ isValid takes an argument, key of your option, and check if that option is passe
 
 
 #### `$validator.showError(key?): void`
-Changes all test labels that have not been validated to red - `Only works when you dont set onError in your options because there is no labels when using onError`
+Changes all test labels that have not been validated to red - `Only works when you haven't set onError in your options because there are no labels when using onError.`
 
 
-if you don't pass the key to this function, every input that uses v-validator directive will turn red. but if you pass key to this function, only specified key will turn red if their tests fails.
+If you don't pass the key to this function, every input that uses the v-validator directive will turn red. but if you pass the key to this function, only the specified key will turn red if their tests fail.
 
 **example**
 ```javascript
@@ -302,13 +301,12 @@ if you don't pass the key to this function, every input that uses v-validator di
 
 
 #### `$validator.validate(...keys): Promise<boolean[]>`
-use this function to validate your forms(inputs) or events, `only works when onError is set in your options object`
+Use this function to validate your forms (inputs) or events - `Only works when onError is set in your options object.`
 
-this function will return a promise of key value pairs after all validations are done.
-also if you want to chain multiple validations you can pass their keys as argument and get the result of validations in return
+This function will return a promise of key-value pairs after all validations are done. Also if you want to chain multiple validations you can pass their keys as an argument and get the result of validations in return.
 
 
-**if validation fails, validate will show your error under bonded input**
+**If validation fails, validate will show your error under bonded input.**
 
 usage: 
 ```javascript
@@ -349,7 +347,7 @@ methods: {
 }
 ```
 
-take note that if you chain multiple tests inside a option (take email option in example above). v-validator will execute all of your tests and combine their result in one boolean value. because of this if one of your tests fails in that chain, the entire option validation will fail too.
+Take note that if you chain multiple tests inside an option (take the email option in the example above). the v-validator will execute all of your tests and combine their result in one boolean value. Because of this if only one of your tests in that chain fails, the entire option validation will fail too.
 
 ```javascript
     email: {
@@ -375,18 +373,17 @@ take note that if you chain multiple tests inside a option (take email option in
 ```
 
 
-#### check [`Examples`](#examples) to get started with this package
+#### Check [`Examples`](#examples) to get started with this package
 
 
 <br />
 
 ### Styling
-you can control the base styles with plugin options. however, if you want more customization you can overwrite validator styles in your CSS
-you can check [style.scss](https://github.com/mediv0/vue-input-validator/blob/master/src/component/style.scss) to get familiar with the structure
+You can control the basic styles with plugin options. However, if you want more customization, you can overwrite validator styles in your CSS. Check [style.scss](https://github.com/mediv0/vue-input-validator/blob/master/src/component/style.scss) to get familiar with the structure.
 
 
 ### Responsive
-as we know validator directive will create a span container and inject your input & validator component into it. this span will have `display: inline-block` and `width: 100%` as its default styling for responsive purposes. also `font-family` and `font-size` are inherited from their parent. so if you want to control font size or font-family of validator component you can create wrapper around your input and put your styles in it.
+As we know validator directive will create a span container and inject your input & validator component into it. This span will have `display: inline-block` and `width: 100%` as its default styling for responsive purposes. Also, `font-family` and `font-size` are inherited from their parent. So if you want to control font size or font-family of validator component you can create a wrapper around your input and put your styles in it.
 
 **example**
 
@@ -409,14 +406,14 @@ as we know validator directive will create a span container and inject your inpu
 <br />
 
 ### Security
-if you are using this package to validate password input, it's better to set `hideLabels` to `true`  in your login page to prevent an attacker to see your rules or something like that.
+If you are using this package to validate password input, it's better to set `hideLabels` to `true`  in your login page to prevent an attacker to see your rules or something like that.
 
 <br />
 
 ### Caveats
-validator component will be injected into the page after bonded element inserts, because of that, this.$validator functions won't work on created lifecycle hook.
+The validator component will be injected into the page after bonded element inserts, because of that, this.$validator functions won't work on created lifecycle hook.
 
-you can access it in mounted like example below to get the data on page load
+You can access it in the mounted function like the example below to get the data on page load.
 ```javascript
 <template>
     div v-if="isDataValid"> ... </div>
@@ -435,14 +432,14 @@ mounted() {
 <br />
 
 ### Examples
-check [public folder](https://github.com/mediv0/vue-input-validator/tree/master/public)  or  codeandbox for more examples
+Check [public folder](https://github.com/mediv0/vue-input-validator/tree/master/public)  or  codeandbox for more examples.
 
 
 ### Contribution
 
 Please make sure to read the [Contributing Guide](https://github.com/mediv0/v-bucket/blob/master/.github/contributing.md) before making a pull request.
 
-**feel free to request new features!**
+**Feel free to request new features!**
 
 ### License
 
