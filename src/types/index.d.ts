@@ -43,6 +43,7 @@ export interface IvalidatorStrategy {
 export interface IreactiveProps extends IvalidatorOptions {
     watcher: string;
     checks: IchecksProp;
+    el: HTMLElement;
 }
 
 export interface IsubscribersObjectType {
