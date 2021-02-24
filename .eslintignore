@@ -3,3 +3,5 @@ tests/*
 public/*
 ./public
 public/**/*
+./dist
+dist/**/*
