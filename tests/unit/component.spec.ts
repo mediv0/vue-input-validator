@@ -489,6 +489,7 @@ describe("onError", () => {
             watcher: "random text"
         });
         _wrapper.vm.validateOnError();
+        _wrapper.vm.$data.showOnErrorMsg = true;
 
         test("should render error message with given text if test fails", () => {
             expect(_wrapper.find("p").text()).toBe("test error msg");
@@ -538,16 +539,19 @@ describe("onError", () => {
     });
 
     describe("onError highlight", () => {
+        _wrapper.vm.$data.showOnErrorMsg = true;
+        console.log(_wrapper.props().el);
         test("should add red highlight around user input if highlight === true", async () => {
-            await _wrapper.vm.validateOnError();
+            _wrapper.vm.setOnErrors();
+            await _wrapper.vm.$nextTick();
             expect((_wrapper.props().el as HTMLElement).style.border).toBe("1px solid red");
         });
 
         test("should remove red highlight around user input if highlight === false", async () => {
             (propsData.checks.onError as any).highlight = false;
+            _wrapper.vm.setOnErrors();
             _wrapper.vm.$forceUpdate();
             await _wrapper.vm.$nextTick();
-            await _wrapper.vm.validateOnError();
             expect((_wrapper.props().el as HTMLElement).style.border).toBe("1px solid red");
         });
     });
