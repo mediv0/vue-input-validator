@@ -21,7 +21,7 @@ By using this package, you can create input validators only with the help of a s
 -   [`Usage`](#usage)
 -   [`Plugin options`](#plugin-options)
 -   [`User options`](#user-options)
--   [`Asynchronous validation`](#async-validation)
+-   [`Asynchronous validation`](#Asynchronous-validation)
 -   [`Hooks`](#hooks)
 -   [`Styling`](#styling)
 -   [`Security`](#security)
