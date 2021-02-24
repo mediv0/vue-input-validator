@@ -16,10 +16,9 @@
         "build": "node scripts/pack.js",
         "test": "vue-cli-service test:unit",
         "lint": "vue-cli-service lint",
-        "pretty": "prettier src/**/* --write"
-    },
-    "dependencies": {
-        "remove": "^0.1.5"
+        "pretty": "prettier src/**/* --write",
+
+        "demo": "vue-cli-service serve example/main.js -w"
     },
     "devDependencies": {
         "@babel/plugin-proposal-class-properties": "^7.12.13",
