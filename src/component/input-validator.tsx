@@ -201,6 +201,7 @@ export default class Validator extends Vue {
 
     async validateOnError(): Promise<boolean> {
         this.showOnErrorMsg = false;
+        this.el.style.border = "";
         const result = await this.runTests(this.watcher, this.checks.items);
 
         return Promise.resolve(result as boolean);
