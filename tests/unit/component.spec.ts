@@ -514,6 +514,9 @@ describe("onError", () => {
                     .attributes()
                     .style.includes("color: yellow;")
             ).toBe(true);
+
+            // reset color back to red
+            (propsData.checks.onError as any).color = "red"; 
         });
 
         test("if user dont provide direction, render with default direction", () => {
@@ -540,19 +543,23 @@ describe("onError", () => {
 
     describe("onError highlight", () => {
         _wrapper.vm.$data.showOnErrorMsg = true;
-        console.log(_wrapper.props().el);
-        test("should add red highlight around user input if highlight === true", async () => {
+
+        beforeEach(() => {
+            // reset el styles on each test
+            dummyEl.style.border = "";
+        }) 
+        test.only("should add red highlight around user input if highlight === true", async () => {
             _wrapper.vm.setOnErrors();
             await _wrapper.vm.$nextTick();
             expect((_wrapper.props().el as HTMLElement).style.border).toBe("1px solid red");
         });
 
-        test("should remove red highlight around user input if highlight === false", async () => {
+
+        test.only("should remove red highlight around user input if highlight === false", async () => {
             (propsData.checks.onError as any).highlight = false;
-            _wrapper.vm.setOnErrors();
             _wrapper.vm.$forceUpdate();
             await _wrapper.vm.$nextTick();
-            expect((_wrapper.props().el as HTMLElement).style.border).toBe("1px solid red");
+            expect((_wrapper.props().el as HTMLElement).style.border).toBe("");
         });
     });
 
