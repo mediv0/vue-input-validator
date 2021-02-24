@@ -1,4 +1,4 @@
-# 🛡️ Vue-input-validator
+# 🛡️ Vue-input-validator [![CodeFactor](https://www.codefactor.io/repository/github/mediv0/vue-input-validator/badge)](https://www.codefactor.io/repository/github/mediv0/vue-input-validator) [![license](https://img.shields.io/github/license/mediv0/vue-input-validator)](https://img.shields.io/github/license/mediv0/vue-input-validator)
 
 ## What is this package all about?
 Using this package, you can create validation for your inputs without the need for additional settings and only with the help of a single directive. You can create custom validation with the help of regex or functions and it will automatically append to your textbox!
