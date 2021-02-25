@@ -1,6 +1,6 @@
 {
     "name": "@mediv0/validator",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "private": false,
     "description": "🛡️ Highly extensible & customizable input validator for Vue2.",
     "author": "mediv0<mahdi.wtf>",
@@ -39,7 +39,6 @@
         "formValidation",
         "vue2FormValidation",
         "vueFormValidation"
-
     ],
     "scripts": {
         "dev": "vue-cli-service serve dev/main.js -w",
@@ -50,8 +49,10 @@
         "demo": "vue-cli-service serve example/main.js -w"
     },
     "devDependencies": {
+        "@babel/core": "^7.13.1",
         "@babel/plugin-proposal-class-properties": "^7.13.0",
         "@babel/plugin-proposal-decorators": "^7.12.13",
+        "@babel/plugin-transform-runtime": "^7.13.7",
         "@babel/preset-env": "^7.12.17",
         "@babel/preset-typescript": "^7.12.17",
         "@rollup/plugin-babel": "^5.3.0",
@@ -62,7 +63,7 @@
         "@typescript-eslint/eslint-plugin": "^2.33.0",
         "@typescript-eslint/parser": "^2.33.0",
         "@vue/babel-preset-jsx": "^1.2.4",
-        "@vue/cli-plugin-babel": "~4.5.0",
+        "@vue/cli-plugin-babel": "^4.5.11",
         "@vue/cli-plugin-eslint": "~4.5.0",
         "@vue/cli-plugin-typescript": "~4.5.0",
         "@vue/cli-plugin-unit-jest": "~4.5.0",
@@ -70,6 +71,8 @@
         "@vue/eslint-config-prettier": "^6.0.0",
         "@vue/eslint-config-typescript": "^5.0.2",
         "@vue/test-utils": "^1.0.3",
+        "babel-loader": "^8.2.2",
+        "babel-plugin-transform-runtime": "^6.23.0",
         "brotli": "^1.3.2",
         "chalk": "^4.1.0",
         "core-js": "^3.6.5",
