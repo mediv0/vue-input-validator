@@ -91,6 +91,10 @@ function createEntry(config) {
 
     c.external.push(/@babel\/runtime/);
 
+    c.plugins.push(replace({
+      'process.env.NODE_ENV': JSON.stringify('production'),
+    }))
+
     if (config.format === "iife" || config.format === "umd") {
         c.output.name = c.output.name || "validator";
     }
@@ -104,10 +108,6 @@ function createEntry(config) {
             })
         );
     }
-
-    c.plugins.push(replace({
-      'process.env.NODE_ENV': JSON.stringify('production'),
-    }))
 
     c.plugins.push(
         resolve({
