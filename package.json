@@ -1,15 +1,45 @@
 {
-    "name": "validator",
+    "name": "@mediv0/vue-input-validator",
     "version": "1.0.0",
-    "private": true,
+    "private": false,
+    "description": "🛡️ Highly extensible & customizable input validator for Vue2.",
+    "author": "mediv0<mahdi.wtf>",
+    "license": "MIT",
     "main": "dist/validator.cjs.js",
     "browser": "dist/validator.esm-browser.prod.js",
     "module": "dist/validator.esm-browser.prod.js",
     "unpkg": "dist/validator.global.prod.js",
+    "jsdelivr": "dist/validator.global.prod.js",
     "types": "./dist/types/index.d.ts",
     "files": [
         "src/*",
         "dist/*"
+    ],
+    "homepage": "https://github.com/mediv0/vue-input-validator",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/mediv0/vue-input-validator"
+    },
+    "bugs": {
+        "url": "https://github.com/mediv0/vue-input-validator/issues"
+    },
+    "keywords": [
+        "vue",
+        "vuejs",
+        "validator",
+        "password",
+        "input",
+        "VueComponent",
+        "PasswordValidator",
+        "InputValidator",
+        "VueDirective",
+        "Security",
+        "form",
+        "formValidator",
+        "formValidation",
+        "vue2FormValidation",
+        "vueFormValidation"
+
     ],
     "scripts": {
         "dev": "vue-cli-service serve dev/main.js -w",
@@ -17,7 +47,6 @@
         "test": "vue-cli-service test:unit",
         "lint": "vue-cli-service lint",
         "pretty": "prettier src/**/* --write",
-
         "demo": "vue-cli-service serve example/main.js -w"
     },
     "devDependencies": {
