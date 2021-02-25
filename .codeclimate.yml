@@ -1,7 +1,8 @@
 exclude_patterns:
 - "./build/rollup.config.js"
-- "./tests"
-- "./scripts/**/*"
-- "./dist"
-- "./node_modules"
-- "./examples"
+- "tests/"
+- "build/"
+- "scripts/"
+- "dev/"
+- "examples/"
+- "node_modules"
