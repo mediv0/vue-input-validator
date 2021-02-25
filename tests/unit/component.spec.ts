@@ -312,6 +312,7 @@ describe("input-validator component (user options & validation & other...)", () 
         jest.advanceTimersByTime(1000);
 
         await _wrapper.vm.$nextTick();
+        await _wrapper.vm.$nextTick();
 
         expect(
             _wrapper
@@ -444,6 +445,7 @@ describe("async and debounce", () => {
 
         jest.advanceTimersByTime(5000);
 
+        await _wrapper.vm.$nextTick();
         await _wrapper.vm.$nextTick();
 
         expect(
