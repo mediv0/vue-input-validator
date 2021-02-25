@@ -1,4 +1,6 @@
-# 🛡️ Vue-input-validator  
+# 🛡️ Vue-input-validator
+
+[demo!](https://nphgg.csb.app/m)
 
 [![Build](https://img.shields.io/circleci/build/github/mediv0/vue-input-validator/master)](https://img.shields.io/circleci/build/github/mediv0/vue-input-validator/master) [![codecov](https://codecov.io/gh/mediv0/vue-input-validator/branch/master/graph/badge.svg)](https://app.codecov.io/gh/mediv0/vue-input-validator) [![CodeFactor](https://www.codefactor.io/repository/github/mediv0/vue-input-validator/badge)](https://www.codefactor.io/repository/github/mediv0/vue-input-validator) [![license](https://img.shields.io/github/license/mediv0/vue-input-validator)](https://img.shields.io/github/license/mediv0/vue-input-validator) [![Maintainability](https://api.codeclimate.com/v1/badges/e541b825abb249aee993/maintainability)](https://codeclimate.com/github/mediv0/vue-input-validator/maintainability)
 
@@ -44,12 +46,12 @@ By using this package, you can create input validators only with the help of a s
 
 npm
 ```bash
-npm i @mediv0/vue-input-validator
+npm i @mediv0/validator
 ```
 
 yarn
 ```bash
-yarn add @mediv0/vue-input-validator
+yarn add @mediv0/validator
 ```
 
 <br />
@@ -60,7 +62,7 @@ yarn add @mediv0/vue-input-validator
 You can import and use the package like below:
 ```javascript index.js
 import Vue from "vue;
-import validator from @mediv0/vue-input-validator;
+import validator from @mediv0/validator;
 
 Vue.use(validator, options);
 
@@ -442,7 +444,7 @@ mounted() {
 <br />
 
 ### Examples
-Check [example folder](https://github.com/mediv0/vue-input-validator/tree/master/example)  or  codeandbox for more examples.
+Check [example folder](https://github.com/mediv0/vue-input-validator/tree/master/example)  or  [codeandbox!](https://codesandbox.io/s/vue-inuput-validator-nphgg?file=/src/App.vue) for more examples.
 
 
 ### Contribution
