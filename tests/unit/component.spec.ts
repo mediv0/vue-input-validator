@@ -520,7 +520,7 @@ describe("onError", () => {
             ).toBe(true);
 
             // reset color back to red
-            (propsData.checks.onError as any).color = "red"; 
+            (propsData.checks.onError as any).color = "red";
         });
 
         test("if user dont provide direction, render with default direction", () => {
@@ -551,7 +551,7 @@ describe("onError", () => {
         beforeEach(() => {
             // reset el styles on each test
             dummyEl.style.border = "";
-        }) 
+        })
         test("should add red highlight around user input if highlight === true", async () => {
             _wrapper.vm.setOnErrors();
             await _wrapper.vm.$nextTick();
