@@ -65,6 +65,12 @@ export default class Validator extends Vue {
         return this.colorTable;
     }
 
+    public get getBarColor() {
+        // sorting color table to always show colors from left to right for line elements even if the last test passes
+        const sortedColorTable = this.updateLineColors(this.colorTable);
+        return sortedColorTable;
+    }
+
     // ------------------------------------------------------------------------------
     // LIFE CYCLE
     // ------------------------------------------------------------------------------
@@ -97,13 +103,23 @@ export default class Validator extends Vue {
 
     // #region  METHODS
 
-    setColorForBarDiv(active: number, color: string): void {
-        const _el = this.$refs[`bar${active}`] as HTMLDivElement;
+    updateLineColors(colorTable: Record<string, string>): { [index: string]: string } {
+        // we sort color table
+        const values = Object.values(colorTable);
 
-        // when hideLine is true that means that there is no _el present in the refs so we have to check this to prevent runtime errors
-        if (_el) {
-            _el.style.backgroundColor = color;
+        values.sort(a => {
+            if (a === this.success) return -1;
+            else return 1;
+        });
+
+        const sortedTable: {
+            [index: number]: string;
+        } = {};
+        for (let i = 0; i < values.length; i++) {
+            sortedTable[i] = values[i];
         }
+
+        return sortedTable;
     }
 
     setSuccess(i: number): void {
@@ -111,8 +127,6 @@ export default class Validator extends Vue {
         if (this.watchBarDiv === _length - 1) {
             this.triggerCallbackOnce(this.checks.onSuccess as Function);
         }
-
-        this.setColorForBarDiv(this.watchBarDiv, this.success);
         this.colorTable[i] = this.success;
 
         if (this.watchBarDiv < _length - 1) {
@@ -121,7 +135,6 @@ export default class Validator extends Vue {
     }
 
     setUnchecked(i: number): void {
-        this.setColorForBarDiv(this.watchBarDiv, this.unchecked);
         this.colorTable[i] = this.unchecked;
 
         if (this.watchBarDiv > 0) {
@@ -269,7 +282,7 @@ export default class Validator extends Vue {
                     {!this.checks.hideLines && (
                         <div class="x_input_validator__bars">
                             {this.checks.items.map((item, i) => {
-                                return <div ref={`bar${i}`} class="x_input_validator__bars__bar" style={{ backgroundColor: this.unchecked }}></div>;
+                                return <div ref={`bar${i}`} class="x_input_validator__bars__bar" style={{ backgroundColor: this.getBarColor[i] }}></div>;
                             })}
                         </div>
                     )}
