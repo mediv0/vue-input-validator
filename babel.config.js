@@ -2,7 +2,18 @@ const dev = {
     presets: ["@vue/cli-plugin-babel/preset"]
 };
 const prod = {
-    presets: ["@babel/preset-env", "@babel/preset-typescript", "@vue/babel-preset-jsx"],
+    presets: [
+        [
+            "@babel/preset-env",
+            {
+                targets: {
+                    esmodules: true
+                }
+            }
+        ],
+        "@babel/preset-typescript",
+        "@vue/babel-preset-jsx"
+    ],
     plugins: [
         ["@babel/plugin-proposal-decorators", { legacy: true }],
         ["@babel/plugin-proposal-class-properties", { loose: true }]
