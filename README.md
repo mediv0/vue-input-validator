@@ -227,7 +227,7 @@ onError options:
 
 This is useful when you don't want to show the default style of validator under your component and disable its real-time validation checking.
 
-A list of all options is also available for you to check [options example](https://github.com/mediv0/vue-input-validator/blob/master/public/validatorOptions.ts)
+A list of all options is also available for you to check [options example](https://github.com/mediv0/vue-input-validator/blob/master/example/validatorOptions.ts)
 
 
 <br />
@@ -434,7 +434,7 @@ mounted() {
 <br />
 
 ### Examples
-Check [public folder](https://github.com/mediv0/vue-input-validator/tree/master/public)  or  codeandbox for more examples.
+Check [example folder](https://github.com/mediv0/vue-input-validator/tree/master/example)  or  codeandbox for more examples.
 
 
 ### Contribution
