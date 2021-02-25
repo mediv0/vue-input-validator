@@ -5,6 +5,14 @@
 ## What is this package all about?
 By using this package, you can create input validators only with the help of a single directive without the need for additional settings; You can create a custom validator with the help of regex or functions, and it will automatically append to your textbox!
 
+<p align="left">
+  <img width="500px" src="https://i.imgur.com/j5fBZEj.gif">
+</p>
+
+<p align="left">
+  <img width="500px" src="https://i.imgur.com/TGMuQov.gif">
+</p>
+
 - Lightweight (4kb gzipped) ☁️
 - Simple API 🎈
 - Customizable 🧰
