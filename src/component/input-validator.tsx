@@ -282,7 +282,7 @@ export default class Validator extends Vue {
                     {!this.checks.hideLines && (
                         <div class="x_input_validator__bars">
                             {this.checks.items.map((item, i) => {
-                                return <div ref={`bar${i}`} class="x_input_validator__bars__bar" style={{ backgroundColor: this.getBarColor[i] }}></div>;
+                                return <div class="x_input_validator__bars__bar" style={{ backgroundColor: this.getBarColor[i] }}></div>;
                             })}
                         </div>
                     )}
