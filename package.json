@@ -1,5 +1,5 @@
 {
-    "name": "@mediv0/vue-input-validator",
+    "name": "@mediv0/validator",
     "version": "1.0.0",
     "private": false,
     "description": "🛡️ Highly extensible & customizable input validator for Vue2.",
