@@ -366,6 +366,8 @@ describe("input-validator component (user options & validation & other...)", () 
         jest.advanceTimersByTime(1000);
 
         await _wrapper.vm.$nextTick();
+                await _wrapper.vm.$nextTick();
+                        await _wrapper.vm.$nextTick();
 
         expect(callBackMock).toHaveBeenCalledTimes(1);
     });
