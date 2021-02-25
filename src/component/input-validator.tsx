@@ -30,9 +30,6 @@ export default class Validator extends Vue {
 
     private colorTable = this.setColorTable();
 
-    // To track the status of the current element in the .x_input_validator__bars__bar Class
-    private watchBarDiv = 0;
-
     // make sure callback runs once
     private once = false;
 
@@ -90,7 +87,7 @@ export default class Validator extends Vue {
             bus.sub(
                 "validationStatus",
                 () => {
-                    return this.watchBarDiv === this.checks.items.length - 1 && this.watchBarDiv !== 0;
+                    return this.isOnSuccessValid();
                 },
                 key
             );
@@ -123,24 +120,15 @@ export default class Validator extends Vue {
     }
 
     setSuccess(i: number): void {
-        const _length = this.checks.items.length;
-        if (this.watchBarDiv === _length - 1) {
-            this.triggerCallbackOnce(this.checks.onSuccess as Function);
-        }
         this.colorTable[i] = this.success;
 
-        if (this.watchBarDiv < _length - 1) {
-            this.watchBarDiv += 1;
+        if (this.isOnSuccessValid()) {
+            this.triggerCallbackOnce(this.checks.onSuccess as Function);
         }
     }
 
     setUnchecked(i: number): void {
         this.colorTable[i] = this.unchecked;
-
-        if (this.watchBarDiv > 0) {
-            this.watchBarDiv -= 1;
-        }
-
         this.once = false;
     }
 
@@ -218,6 +206,11 @@ export default class Validator extends Vue {
         const result = await this.runTests(this.watcher, this.checks.items);
 
         return Promise.resolve(result as boolean);
+    }
+
+    isOnSuccessValid() {
+        const colors = Object.values(this.colorTable);
+        return colors.every(c => c === this.success);
     }
 
     // ------------------------------------------------------------------------------
